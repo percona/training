@@ -1,4 +1,6 @@
-training
+Percona Training Resources
 ========
 
-Repository for publicly available training resources
+http://www.percona.com/training
+
+This repository contains certain files suitible for public distribution in a Percona-lead training class.
