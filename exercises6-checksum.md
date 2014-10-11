@@ -43,13 +43,13 @@ In this exercise you will learn: How to checksum a table
   
   ```
   CREATE DATABASE percona;
-  GRANT SELECT, REPLICATION SLAVE, REPLICATION CLIENT, PROCESS ON *.* TO 'checksum'@'%' IDENTIFIED BY 'checksum1';
-  GRANT SELECT, SUPER, PROCESS, REPLICATION CLIENT ON *.* TO 'checksum'@'localhost' IDENTIFIED BY 'checksum1';
+  GRANT SELECT, SUPER, PROCESS, REPLICATION SLAVE ON *.* TO 'checksum'@'%' IDENTIFIED BY 'checksum1';
+  GRANT SELECT, SUPER, PROCESS ON *.* TO 'checksum'@'localhost' IDENTIFIED BY 'checksum1';
   GRANT ALL ON percona.* TO 'checksum'@'%' IDENTIFIED BY 'checksum1';
   ```
   
   We created a separate @localhost user for the socket connection we will make on the master running the tool.
-  Additionally, this user requires SUPER priveleges to change its session to STATEMENT mode for replication purposes.
+  Additionally, both users require SUPER and PROCESS priveleges to change their session to STATEMENT mode for replication purposes and to gather information about connected slaves. ALL is granted on the 'percona' database so that the tool can create the checksum table, or empty it and write to it.
   
   * Calculate the Checksums
   
