@@ -5,7 +5,7 @@
 
 In this exercise you will: intentionally remove data from the slave, re-checksum the cluster and fix the drift.
 
-* Remove data from the slave
+#### 7.1 Remove data from the slave
 
 Under normal production environments, your slaves are ran in read-only mode (if they aren't, fix this!). There are two ways you can override the read-only flag: replication and any user with SUPER privilege.
 
@@ -15,7 +15,7 @@ Let's log in to our MySQL-DB2 instance and remove some data. We can do this beca
 
 This should have remove 1,001 rows from the table.
 
-* Detect slave drift
+#### 7.2 Detect slave drift
 
 Now, let's log back in to our MySQL-DB1 instance and re-run our checksum. If we suspect a single table might have some problems in it, we can checksum just that one table to save some time.
 
@@ -32,7 +32,7 @@ You should have seen this as your output:
 
 As you can see, under the *DIFFS* column, it shows 1, indicating 1 of the 5 chunks had a problem on a slave.
 
-* Fixing slave drift
+#### 7.3 Fixing slave drift
 
 Now that we have successfully detected the drift, we need to fix it. We do that with another Percona Toolkit tool named *pt-table-sync*.
 
