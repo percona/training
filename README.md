@@ -1,5 +1,4 @@
 # Percona Training Resources
-========
 
 http://www.percona.com/training
 
