@@ -1,11 +1,11 @@
 # Classroom Exercises for Percona Training
-###### Last Update: October 6th, 2014
+###### Last Update: October 2014
 
 ## Exercise 6
 
 In this exercise you will learn: How to checksum a table
 
-  * What is a Checksum?
+* 6.1 - What is a Checksum?
   
   If you don't know what a checksum is, you can read up on the details: https://en.wikipedia.org/wiki/Checksum 
   In a nutshell, you pass arbitrary amounts of data into a hashing function that returns a value. This value is the checksum.
@@ -14,7 +14,7 @@ In this exercise you will learn: How to checksum a table
   However, if even a single bit (0 or 1) is different, the resultant checksum will not match the earlier checksum.
   This is how you determine if two sets of data are the same. If the checksums don't match, the data doesn't match.
   
-  * Checksumming a table - Built-In
+* 6.2 - Checksumming a table - Built-In
   
   There is a built-in MySQL command to checksum a table:
   
@@ -22,7 +22,7 @@ In this exercise you will learn: How to checksum a table
   
   However, this is not recommend as you only get 1 answer at the end and MySQL must process all the rows in the table in one large batch. This could take hours depending on the size of your table.
   
-  * Checksumming a table - pt-table-checksum
+* 6.3 - Checksumming a table - pt-table-checksum
   
   _pt-table-checksum_ is a free tool provided by Percona. http://www.percona.com/doc/percona-toolkit/pt-table-checksum.html
   This script generates checksums in a much more efficient way. Instead of operating on the entire table, pt-table-checksum operates on "chunks" of rows. The default size of 1 chunk is 1000 rows.
@@ -37,7 +37,7 @@ In this exercise you will learn: How to checksum a table
   
   Since we have a Master->Slave setup from the first group of exercises, let's take full advantage of pt-table-checksum.
   
-  * Create checksum user.
+* 6.4 - Create checksum user.
   
   Let's create a user that can login to both machines. This user will be used in our call to the script. pt-table-checksum can then log in to the slave(s) and monitor replication lag and pause itself if lag gets too high. We also need to create a *percona* database to store the checksum results.
   
@@ -51,7 +51,7 @@ In this exercise you will learn: How to checksum a table
   We created a separate @localhost user for the socket connection we will make on the master running the tool.
   Additionally, both users require SUPER and PROCESS priveleges to change their session to STATEMENT mode for replication purposes and to gather information about connected slaves. ALL is granted on the 'percona' database so that the tool can create the checksum table, or empty it and write to it.
   
-  * Calculate the Checksums
+* 6.5 - Calculate the Checksums
   
   Now that we have set up our user, let's run a checksum on all of our data:
   
