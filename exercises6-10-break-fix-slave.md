@@ -63,7 +63,7 @@ In this exercise you will learn: How to checksum a table
   You should see output similar to this:
   
   ```
-               TS ERRORS  DIFFS     ROWS  CHUNKS SKIPPED    TIME TABLE
+              TS ERRORS  DIFFS     ROWS  CHUNKS SKIPPED    TIME TABLE
    10-11T00:49:22      0      0   633135       7       0   6.717 imdb.aka_name
   ```
   
