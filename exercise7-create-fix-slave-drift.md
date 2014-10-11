@@ -21,7 +21,7 @@ Now, let's log back in to our MySQL-DB1 instance and re-run our checksum. If we 
 
 `pt-table-checksum  h=localhost -d imdb -t company_name -u checksum -pchecksum1 --no-check-binlog-format --no-version-check`
 
-You'll notice the command is almost the same as the previous exercise but with the addition of *-d* and *-t* which allow you to specify a single database and table or multiple databases and tables in a comma-separated list.
+You'll notice the command is almost the same as the previous exercise but with the addition of **-d** and **-t** which allow you to specify a single database and table or multiple databases and tables in a comma-separated list.
 
 You should have seen this as your output:
 
@@ -30,13 +30,13 @@ You should have seen this as your output:
 10-11T15:26:02      0      1   241457       5       0   3.661 imdb.company_name
 ```
 
-As you can see, under the *DIFFS* column, it shows 1, indicating 1 of the 5 chunks had a problem on a slave.
+As you can see, under the __DIFFS__ column, it shows 1, indicating 1 of the 5 chunks had a problem on a slave.
 
 #### 7.3 Fixing Slave Drift
 
-Now that we have successfully detected the drift, we need to fix it. We do that with another Percona Toolkit tool named *pt-table-sync*.
+Now that we have successfully detected the drift, we need to fix it. We do that with another Percona Toolkit tool named __pt-table-sync__.
 
-pt-table-checksum saves all of the chunk/checksum information to a table called _checksums_ in the _percona_ database. pt-table-sync is able to read this data and isolate which chunk is bad and then do a row-by-row comparison to find that specific row (or rows) that may be missing or have incorrect column-level values.
+pt-table-checksum saves all of the chunk/checksum information to a table called __checksums__ in the __percona__ database. pt-table-sync is able to read this data and isolate which chunk is bad and then do a row-by-row comparison to find that specific row (or rows) that may be missing or have incorrect column-level values.
 
 Let's use pt-table-sync to first display the SQL necessary to fix the slave. First, log back in to your MySQL-DB2 instance.
 
@@ -46,10 +46,13 @@ The output redirect (ie: pipe) to *w*ord *c*ount is optional. It serves as a qui
 
 `pt-table-sync --replicate percona.checksums h=localhost,u=checksum,p=checksum1 --print`
 
-This will print 1001 REPLACE statements. You use _--print_ to sanity check what will be executed on the master. Remember that last part: _executed on the master_
-We _NEVER_ execute directly on the slave. We always execute on the master and let the changes flow through replication. Because the master already has this data, the command is considered a no-op (no operation) and doesn't incur any significant load on the master. The DML still flows thru replication down to all slaves.
+This will print 1001 REPLACE statements. You use _--print_ to sanity check what will be executed on the master. 
 
-Run the tool again, this time specifying _--execute_ to actually execute each statement.
+Remember that last part: __executed on the master__
+
+We __NEVER__ execute directly on the slave. We always execute on the master and let the changes flow through replication. Because the master already has this data, the command is considered a no-op (no operation) and doesn't incur any significant load on the master. The DML still flows thru replication down to all slaves.
+
+Run the tool again, this time specifying __--execute__ to actually execute each statement.
 
 `pt-table-sync --replicate percona.checksums h=localhost,u=checksum,p=checksum1 --execute --verbose`
 
@@ -64,7 +67,7 @@ We can see here that 1001 REPLACE statements were executed. Let's verify the che
 
 #### 7.4 Verify Fixed Drift
 
-Let's run another checksum on just this table and verify our _pt-table-sync_ worked.
+Let's run another checksum on just this table and verify our __pt-table-sync__ worked.
 
 ```
 pt-table-checksum  h=localhost -d imdb -t company_name -u checksum -pchecksum1 --no-check-binlog-format --no-version-check
