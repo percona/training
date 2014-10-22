@@ -5,7 +5,14 @@
 
 In this exercise you will: Prepare the backup, start MySQL on DB2 and connect the slave.
 
-* 5.1 - Prepare the backup
+* 5.1 - Decompress the backup
+  
+  If you didn't notice, we used the _--compress_ option on our innobackupex execution. So before we can do anything else to our DB2 instance, we have to decompress the backup.
+  
+  `cd /var/lib/mysql`
+  `innobackupex --decompress ./`
+
+* 5.2 - Prepare the backup
   
   When you take a backup of a running MySQL instance, there are usually transactions in-flight. Innobackupex records these transactions while taking the snapshot of your data on-disk. We must now apply all of those changes that happened during the backup process to the actual data files.
   
@@ -18,13 +25,13 @@ In this exercise you will: Prepare the backup, start MySQL on DB2 and connect th
    
   This is a two-stage process that innobackupex handles for you. Stage 1 applies all of the transactional information to the datafiles and stage 2 creates new logfiles. You should see "innobackupex: Completed OK!" again when both steps are completed. The backup is now prepared.
 
-* 5.2 - Change ownership
+* 5.3 - Change ownership
   
   Presumably, you ran all of this as root. Thus we need to change the ownership of all the MySQL files otherwise it will not start.
   
   `chown -R mysql:mysql ./*`
 
-* 5.3 - Start MySQL
+* 5.4 - Start MySQL
   
   We can now start MySQL. The below example is on CentOS using SystemV init scripts. If you are running something different, refer to your OS documentation on how to start services.
   
@@ -32,7 +39,7 @@ In this exercise you will: Prepare the backup, start MySQL on DB2 and connect th
   
   MySQL should now be running without any errors.
 
-* 5.4 - Create a slave user
+* 5.5 - Create a slave user
   
   On your MySQL-DB1 instance, we need to create a user that can connect and receive binlog events. This user needs the *REPLICATION SLAVE* privilege. Log in to MySQL and execute the following DDL statement.
   
@@ -40,7 +47,7 @@ In this exercise you will: Prepare the backup, start MySQL on DB2 and connect th
   
   You can substitute any username, hostname and password you wish.
 
-* 5.5 - Connect the slave instance and start replication
+* 5.6 - Connect the slave instance and start replication
   
   Now that the user is created, go back to your MySQL-DB2 terminal and log in to MySQL. We now need to tell this instance to become a slave of DB1. We do that with the *CHANGE MASTER* command.
   
