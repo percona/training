@@ -19,7 +19,7 @@ In this exercise you will: intentionally remove data from the slave, re-checksum
 
 * 7.2 - Detect Slave Drift
 
-  Now, let's log back in to our MySQL-DB1 instance and re-run our checksum. If we suspect a single table 
+  Now, let's log back in to our MySQL-DB1 (master) instance and re-run our checksum. If we suspect a single table 
   might have some problems in it, we can checksum just that one table to save some time.
   
   `pt-table-checksum  h=localhost -d imdb -t company_name -u checksum -pchecksum1 --no-check-binlog-format --no-version-check`
@@ -48,7 +48,7 @@ In this exercise you will: intentionally remove data from the slave, re-checksum
   specific row (or rows) that may be missing or have incorrect column-level values.
   
   Let's use pt-table-sync to first display the SQL necessary to fix the slave. 
-  First, log back in to your MySQL-DB2 instance.
+  First, log back in to your MySQL-DB1 (master) instance.
   
   `pt-table-sync --replicate percona.checksums h=localhost,u=checksum,p=checksum1 --print | wc -l`
   

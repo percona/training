@@ -11,4 +11,4 @@ This repository contains certain files suitible for public distribution in a Per
 4. [Exercise 4 - Make and Stream the Backup](exercise4-stream-backup.md)
 5. [Exercise 5 - Prepare, Start and Connect the Slave](exercise5-prepare-start-slave.md)
 6. [Exercise 6 - Checksum Basics](exercise6-checksum.md)
-7. [Exercise 7 - Create and Fix Slave Drift](exercide7-create-fix-slave-drift.md)
+7. [Exercise 7 - Create and Fix Slave Drift](exercise7-create-fix-slave-drift.md)
