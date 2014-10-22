@@ -9,11 +9,11 @@ In this exercise, you will: Download the SSH configuration, Download the SSH key
   1. Open your browser and go to _http://learning.percona.com/_  Log in with your credentials. If you do not know your credentials, use the "Forgot Password" link to reset them.
   2. Click 'My Courses' on the right-hand side and find this class.
   3. Scroll down to 'Class Materials'
-  4. Right-click on "ssh-config.txt" and choose 'Save [File] As..' and save it to the home directory of the lab computer.
+  4. Right-click on "ssh-config-XXX.txt", where XXX is your city code (ex: CHI - Chicago, HOU - Houston, NYC - New York) and choose 'Save [File] As..' and save it to the home directory of the lab computer.
 
 * 1.2 - Download the SSH key
   1. Log in to _http://learning.percona.com/_ if you are not logged in still from the above step.
-  2. Right-click on "Percona-Training-XXX.key" where XXX is your city code (ex: CHI - Chicago, HOU - Houston, NYC - New York) and choose 'Save [File] As..' and save it to the home directory of the lab computer.
+  2. Right-click on "Percona-Training-XXX.key", replacing XXX with your city code, and choose 'Save [File] As..' and save it to the home directory of the lab computer.
   3. Close/minimize your browser window.
   4. Open a terminal window. This will place you in the home directory of the lab user.
   5. Type "chmod 600 Percona-Training-XXX.key", again, replacing XXX with your city code, then press _return_.
