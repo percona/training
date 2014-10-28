@@ -9,8 +9,10 @@ In this exercise you will: Prepare the backup, start MySQL on DB2 and connect th
   
   If you didn't notice, we used the _--compress_ option on our innobackupex execution. So before we can do anything else to our DB2 instance, we have to decompress the backup.
   
-  `cd /var/lib/mysql`
-  `innobackupex --decompress ./`
+  ```
+  cd /var/lib/mysql
+  innobackupex --decompress ./
+  ```
 
 * 5.2 - Prepare the backup
   
