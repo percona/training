@@ -30,4 +30,4 @@ In this exercise, you will: Install the Percona Yum repository, Percona Server 5
     
   3. Now we can install the Percona Toolkit and other essential tools and libraries. 'nc' is the 'netcat' command line utility for doing quick transfers between servers.
 
-    `yum install percona-toolkit percona-xtrabackup nc -y`
+    `yum install percona-toolkit percona-xtrabackup qpress nc -y`
