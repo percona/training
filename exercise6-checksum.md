@@ -45,7 +45,7 @@ In this exercise you will learn: How to checksum a table
   CREATE DATABASE percona;
   GRANT SELECT, SUPER, PROCESS, REPLICATION SLAVE ON *.* TO 'checksum'@'%' IDENTIFIED BY 'checksum1';
   GRANT SELECT, SUPER, PROCESS ON *.* TO 'checksum'@'localhost' IDENTIFIED BY 'checksum1';
-  GRANT ALL ON percona.* TO 'checksum'@'%' IDENTIFIED BY 'checksum1';
+  GRANT ALL ON percona.* TO 'checksum'@'%';
   ```
   
   We created a separate @localhost user for the socket connection we will make on the master running the tool.
