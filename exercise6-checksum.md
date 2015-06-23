@@ -18,7 +18,7 @@ In this exercise you will learn: How to checksum a table
   
   There is a built-in MySQL command to checksum a table:
   
-  `CHECKSUM TABLE foo;`
+  `CHECKSUM TABLE [<db>.]<table>;`
   
   However, this is not recommend as you only get 1 answer at the end and MySQL must process all the rows in the table in one large batch. This could take hours depending on the size of your table.
   
