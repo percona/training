@@ -64,7 +64,15 @@ In this exercise you will: Prepare the backup, start MySQL on DB2 and connect th
   You can now see the slave running with other information:
   
   `SHOW SLAVE STATUS\G`
+
+* 5.7 - Woops!
+
+  Doesn't look like our slave is running; we have an error! One thing we forgot to do is change the _server_id_ of the slave; it cannot be the same id as the master. Edit _/etc/my.cnf_ and change the server_id to anything other than 0 and it's current value.
   
+  You will have to restart MySQL for this to take effect.
+  
+  After you've restarted MySQL, log back in and run another
+  
+  `SHOW SLAVE STATUS\G`
+
   If you see *Slave_SQL_Running: Yes* and *Slave_IO_Running: Yes*, congratulations! You've set up a slave instance!
-  
-  
