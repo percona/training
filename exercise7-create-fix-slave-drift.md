@@ -13,7 +13,7 @@ In this exercise you will: intentionally remove data from the slave, re-checksum
   Let's log in to our MySQL-DB2 instance and remove some data. We can do this because we have the SUPER 
   privelege on our 'root' account.
 
-  `mysql-db2> DELETE FROM company_name WHERE id BETWEEN 10000 AND 11000;`
+  `mysql-db2> DELETE FROM company_name WHERE RAND()*100 < 5;`
 
   This should have remove 1,001 rows from the table.
 
