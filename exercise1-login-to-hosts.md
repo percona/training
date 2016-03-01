@@ -6,20 +6,18 @@
 In this exercise, you will: Download the SSH configuration, Download the SSH key and Log in to your team instance
 
 * 1.1 - Download the SSH configuration.
-  1. Open your browser and go to _http://learning.percona.com/_  Log in with your credentials. If you do not know your credentials, use the "Forgot Password" link to reset them.
-  2. Click 'My Courses' on the right-hand side and find this class.
-  3. Scroll down to 'Class Materials'
-  4. Right-click on "ssh-config-XXX.txt", where XXX is your city code (ex: CHI - Chicago, HOU - Houston, NYC - New York) and choose 'Save [File] As..' and save it to the home directory of the lab computer.
+  1. Open your browser and go to _https://gist.github.com/utdrmac/95cc19fffc473f74944e_
+  2. Click the 'Raw' button associated with the file "ssh-config-XXX.txt", where XXX is your team code (ex: CHI - Chicago, HOU - Houston, NYC - New York) and choose 'Save [File] As..' and save it to the home directory of your computer.
 
 * 1.2 - Download the SSH key
-  1. Log in to _http://learning.percona.com/_ if you are not logged in still from the above step.
-  2. Right-click on "Percona-Training-XXX.key", replacing XXX with your city code, and choose 'Save [File] As..' and save it to the home directory of the lab computer.
-  3. Close/minimize your browser window.
-  4. Open a terminal window. This will place you in the home directory of the lab user.
-  5. Type "chmod 600 Percona-Training-XXX.key", again, replacing XXX with your city code, then press _return_.
+  1. Open your browser and go to _https://gist.github.com/utdrmac/95cc19fffc473f74944e_
+  2. Click the 'Raw' button associated with the file "Percona-Training.key", replacing XXX with your team code, and choose 'Save [File] As..' and save it to the home directory of your computer.
+  3. If you are on Windows and using Putty, you need to download and use "Percona-Training.ppk". So download this file instead for Step 2.
+  4. Mac/Linux users, open a terminal window using Terminal/iTerm2.
+  5. Mac/Linux users, type "chmod 600 Percona-Training.key". Windows users can ignore this step.
 
 * 1.3 - Log in to your team instance
-  1. Type the following in the terminal window, again, replacing XXX with you city code and replacing N with your team number as designated by your instructor.
+  1. Type the following in the terminal window, again, replacing XXX with you team code and replacing N with your team number as designated by your instructor.
 
     `ssh -F ssh-config.txt Percona-Training-XXX-db2-TN`
 
