@@ -16,7 +16,12 @@ In this exercise, you will: Install the Percona Yum repository, Percona Server 5
     
     You should see many items scroll across the screen. This is an indication the repo was installed and can be accessed.
 
-* 2.2 - Install Percona Server 5.6
+* 2.2 - Install Extra Packages for Enterprise Linux (EPEL) Repo
+  1. This repo is required to install *libev* which is required for *Percona Xtrabackup 2.4*
+  
+    `yum install epel-release -y`
+
+* 2.3 - Install Percona Server 5.6
   1. Your terminal window should still be open from the above step. Let's continue.
   2. Type the following to install Percona Server 5.6 via yum
 
