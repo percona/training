@@ -1,5 +1,5 @@
 # Classroom Exercises for Percona Training
-###### Last Update: October 2014
+###### Last Update: August 2016
 
 ## Exercise 7
 
@@ -22,7 +22,10 @@ In this exercise you will: intentionally remove data from the slave, re-checksum
   Now, let's log back in to our MySQL-DB1 (master) instance and re-run our checksum. If we suspect a single table 
   might have some problems in it, we can checksum just that one table to save some time.
   
-  `pt-table-checksum  h=localhost -d imdb -t company_name -u checksum -pchecksum1 --no-check-binlog-format --no-version-check`
+  ```
+  pt-table-checksum  h=localhost -d imdb -t company_name -u checksum -pchecksum1 \
+    --no-check-binlog-format --no-version-check
+  ```
   
   You'll notice the command is almost the same as the previous exercise but with the addition 
   of **-d** and **-t** which allow you to specify a single database and table or multiple databases 
@@ -85,7 +88,9 @@ In this exercise you will: intentionally remove data from the slave, re-checksum
   Let's run another checksum on just this table and verify our __pt-table-sync__ worked.
   
   ```
-  pt-table-checksum  h=localhost -d imdb -t company_name -u checksum -pchecksum1 --no-check-binlog-format --no-version-check
+  pt-table-checksum  h=localhost -d imdb -t company_name -u checksum -pchecksum1 \
+    --no-check-binlog-format --no-version-check
+    
               TS ERRORS  DIFFS     ROWS  CHUNKS SKIPPED    TIME TABLE
   10-11T18:18:48      0      0   241457       5       0   2.670 imdb.company_name
   ```
