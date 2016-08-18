@@ -1,5 +1,5 @@
 # Classroom Exercises for Percona Training
-###### Last Update: October 2014
+###### Last Update: August 2016
 
 ## Exercise 5
 
@@ -45,7 +45,10 @@ In this exercise you will: Prepare the backup, start MySQL on DB2 and connect th
   
   On your MySQL-DB1 instance, we need to create a user that can connect and receive binlog events. This user needs the *REPLICATION SLAVE* privilege. Log in to MySQL and execute the following DDL statement.
   
-  `GRANT REPLICATION SLAVE ON *.* TO 'replication'@'10.10.10.201' IDENTIFIED BY 'mypassword';`
+  ```
+  CREATE USER 'replication'@'10.10.10.%' IDENTIFIED BY 'mypassword';
+  GRANT REPLICATION SLAVE ON *.* TO 'replication'@'10.10.10.%';
+  ```
   
   You can substitute any username, hostname and password you wish.
 
