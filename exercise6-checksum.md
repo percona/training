@@ -1,5 +1,5 @@
 # Classroom Exercises for Percona Training
-###### Last Update: October 2014
+###### Last Update: August 2016
 
 ## Exercise 6
 
@@ -43,8 +43,12 @@ In this exercise you will learn: How to checksum a table
   
   ```
   CREATE DATABASE percona;
-  GRANT SELECT, SUPER, PROCESS, REPLICATION SLAVE ON *.* TO 'checksum'@'%' IDENTIFIED BY 'checksum1';
-  GRANT SELECT, SUPER, PROCESS ON *.* TO 'checksum'@'localhost' IDENTIFIED BY 'checksum1';
+  
+  CREATE USER 'checksum'@'%' IDENTIFIED BY 'checksum1';
+  CREATE USER 'checksum'@'localhost' IDENTIFIED BY 'checksum1';
+  
+  GRANT SELECT, SUPER, PROCESS, REPLICATION SLAVE ON *.* TO 'checksum'@'%';
+  GRANT SELECT, SUPER, PROCESS ON *.* TO 'checksum'@'localhost';
   GRANT INSERT, DELETE ON imdb.* TO 'checksum'@'localhost';
   GRANT ALL ON percona.* TO 'checksum'@'%';
   ```
