@@ -1,12 +1,12 @@
 # Classroom Exercises for Percona Training
-###### Last Update: October 2014
+###### Last Update: August 2016
 
 ## Exercise 2
 
-In this exercise, you will: Install the Percona Yum repository, Percona Server 5.6, Percona Toolkit and other useful utilities.
+In this exercise, you will: Install the Percona Yum repository, Percona Server 5.7, Percona Toolkit and other useful utilities.
 
 * 2.1 - Install the Percona Yum Repo
-  1. Open your browser and go to _http://www.percona.com/doc/percona-server/5.6/installation/yum_repo.html_
+  1. Open your browser and go to _http://www.percona.com/doc/percona-server/5.7/installation/yum_repo.html_
   2. Copy the line inside the first tan box under 'Automatic Installation'. The line begins with *yum install*. Copy the entire line.
   3. Open your terminal window and log in to your MySQL-DB2 instance if you closed it earlier.
   4. Paste the copied line from the step above and press return. This will download and install the Percona Yum repository information.
@@ -21,18 +21,18 @@ In this exercise, you will: Install the Percona Yum repository, Percona Server 5
   
     `yum install epel-release -y`
 
-* 2.3 - Install Percona Server 5.6
+* 2.3 - Install Percona Server 5.7
   1. Your terminal window should still be open from the above step. Let's continue.
-  2. Type the following to install Percona Server 5.6 via yum
+  2. Type the following to install Percona Server 5.7 via yum
 
-    `yum install Percona-Server-*56 -y`
+    `yum install Percona-Server-*57 -y`
     
     This will install, among others, the following packages thanks to the wildcard in the command above:
     
-    * Percona-Server-client-56.x86_64
-    * Percona-Server-server-56.x86_64
-    * Percona-Server-shared-56.x86_64
+    * Percona-Server-client-57.x86_64
+    * Percona-Server-server-57.x86_64
+    * Percona-Server-shared-57.x86_64
     
   3. Now we can install the Percona Toolkit and other essential tools and libraries. 'nc' is the 'netcat' command line utility for doing quick transfers between servers.
 
-    `yum install percona-toolkit percona-xtrabackup qpress nc -y`
+    `yum install percona-toolkit percona-xtrabackup-24 qpress nc -y`
