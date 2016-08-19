@@ -54,7 +54,7 @@ In this exercise you will: intentionally remove data from the slave, re-checksum
   First, log back in to your MySQL-DB1 (master) instance.
   
   ```
-   pt-table-sync --replicate percona.checksums h=localhost,u=checksum,p=checksum1 \
+  pt-table-sync --replicate percona.checksums h=localhost,u=checksum,p=checksum1 \
     -d imdb -t company_name--print | wc -l
   ```
   
