@@ -26,7 +26,8 @@ In this exercise you will learn: How to checksum a table
   
   _pt-table-checksum_ is a free tool provided by Percona. http://www.percona.com/doc/percona-toolkit/pt-table-checksum.html
   This script generates checksums in a much more efficient way. Instead of operating on the entire table, pt-table-checksum operates on "chunks" of rows. The default size of 1 chunk is 1000 rows.
-  You execute pt-table-checksum to checksum your entire database (all tables in all databases) via:
+  
+  You can execute pt-table-checksum to checksum your entire database (all tables in all databases) via:
   
   `pt-table-checksum -u user -p pass h=localhost`
   
@@ -58,18 +59,20 @@ In this exercise you will learn: How to checksum a table
   
 * 6.5 - Calculate the Checksums
   
-  Now that we have set up our user, let's run a checksum on all of our data:
+  Now that we have set up our user, let's run a checksum of our data.
+
+  Normally, we would let this run and checksum all tables in all databases. As our DB1 instance is a little over 10GB of data, this will take a bit too long for classroom purposes, so let's just checksum one table instead.
   
   ```
   pt-table-checksum  h=localhost -u checksum -p checksum1 \
-       --no-check-binlog-format --no-version-check
+    -d imdb -t company_name --no-check-binlog-format --no-version-check
   ```
   
   You should see output similar to this:
   
   ```
               TS ERRORS  DIFFS     ROWS  CHUNKS SKIPPED    TIME TABLE
-   10-11T00:49:22      0      0   633135       7       0   6.717 imdb.aka_name
+   08-19T02:01:40      0      0   288801       6       0   1.739 imdb.company_name
   ```
   
   We can see the timestamp of completion of this table, if there were any errors during the checksum, if any differences were found (# of chunks different), how many rows in the table, how many chunks the script created out of those rows, if any chunks got skipped, how long it took to checksum the table and the table name.
