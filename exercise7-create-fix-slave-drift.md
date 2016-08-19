@@ -15,7 +15,7 @@ In this exercise you will: intentionally remove data from the slave, re-checksum
 
   `mysql-db2> DELETE FROM company_name WHERE RAND()*100 < 5;`
 
-  This should have remove 1,001 rows from the table.
+  This will remove several thousand rows from the table.
 
 * 7.2 - Detect Slave Drift
 
@@ -53,15 +53,11 @@ In this exercise you will: intentionally remove data from the slave, re-checksum
   Let's use pt-table-sync to first display the SQL necessary to fix the slave. 
   First, log back in to your MySQL-DB1 (master) instance.
   
-  `pt-table-sync --replicate percona.checksums h=localhost,u=checksum,p=checksum1 --print | wc -l`
+  ```
+   pt-table-sync --replicate percona.checksums h=localhost,u=checksum,p=checksum1 \
+    -d imdb -t company_name--print | wc -l`
   
-  The output redirect (ie: pipe) to *w*ord *c*ount is optional. It serves as a quick 
-  check that the tool will execute 1001 SQL statements (ie: the number of rows we deleted originally) to fix the slave. Run the command above but remove everything after the pipe character.
-  
-  `pt-table-sync --replicate percona.checksums h=localhost,u=checksum,p=checksum1 --print`
-  
-  This will print 1001 REPLACE statements. You use _--print_ to sanity check what will 
-  be executed on the master. 
+  The output redirect (ie: pipe) to *w*ord *c*ount is optional. It serves as a quick check that the tool will execute the same number of SQL statements, as the number of rows we deleted originally, to fix the slave. You use _--print_ to sanity check what will be executed on the master. 
   
   Remember that last part: __executed on the master__
   
@@ -72,7 +68,10 @@ In this exercise you will: intentionally remove data from the slave, re-checksum
   
   Run the tool again, this time specifying __--execute__ to actually execute each statement.
   
-  `pt-table-sync --replicate percona.checksums h=localhost,u=checksum,p=checksum1 --execute --verbose`
+  ```
+  pt-table-sync --replicate percona.checksums h=localhost,u=checksum,p=checksum1 \
+    -d imdb -t company_name --execute --verbose
+  ```
   
   You should see output similar to this:
   
