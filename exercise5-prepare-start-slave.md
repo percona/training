@@ -37,7 +37,7 @@ In this exercise you will: Prepare the backup, start MySQL on DB2 and connect th
   
   We can now start MySQL. The below example is on CentOS using SystemV init scripts. If you are running something different, refer to your OS documentation on how to start services.
   
-  `/etc/init.d/mysql start`
+  `systemctl start mysql`
   
   MySQL should now be running without any errors.
 
