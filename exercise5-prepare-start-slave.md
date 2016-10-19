@@ -11,7 +11,9 @@ In this exercise you will: Prepare the backup, start MySQL on DB2 and connect th
   
   ```
   cd /var/lib/mysql
-  innobackupex --decompress ./
+  xtrabackup --decompress --parallel=4 --target-dir=./
+  -- Optional --
+  find ./ -name "*.qp" -exec rm -f {} \;
   ```
 
 * 5.2 - Prepare the backup
@@ -20,12 +22,12 @@ In this exercise you will: Prepare the backup, start MySQL on DB2 and connect th
   
   In your MySQL-DB2 terminal window, you should still be inside your MySQL $DATADIR. We can now issue the following command:
   
-  `innobackupex --apply-log --use-memory=4G ./`
+  `xtrabackup --prepare --use-memory=4G --target-dir=./`
   
-  * --apply-log - This option tells innobackupex that we want to apply the changes.
-  * --use-memory=4G - Increasing the amount of memory available to innobackupex can significantly speed up this process. If there is nothing else running on your system, you may increase this to 10/20/50GB.
+  * --prepare - This option tells xtrabackup that we want to apply any in-flight transactional changes.
+  * --use-memory=4G - Increasing the amount of memory available to xtrabackup can significantly speed up this process. If there is nothing else running on your system, you may increase this to 10/20/50GB.
    
-  This is a two-stage process that innobackupex handles for you. Stage 1 applies all of the transactional information to the datafiles and stage 2 creates new logfiles. You should see "innobackupex: Completed OK!" again when both steps are completed. The backup is now prepared.
+  This is a two-stage process that xtrabackup handles for you. Stage 1 applies all of the transactional information to the datafiles and stage 2 creates new logfiles. You should see "completed OK!" again when both steps are completed. The backup is now prepared and ready to be used.
 
 * 5.3 - Change ownership
   
@@ -58,7 +60,7 @@ In this exercise you will: Prepare the backup, start MySQL on DB2 and connect th
   
   `CHANGE MASTER TO MASTER_HOST='10.10.10.200', MASTER_USER='replication', MASTER_PASSWORD='mypassword', MASTER_LOG_FILE='master-bin.0000001', MASTER_LOG_POS=107;`
 
-  To determine the values for MASTER_LOG_FILE and MASTER_LOG_POS, scroll up in your terminal window a bit. They will have been printed out at the end of the _--apply-log_ execution from exercise 5.
+  To determine the values for MASTER_LOG_FILE and MASTER_LOG_POS, scroll up in your terminal window a bit. They will have been printed out at the end of the _--prepare_ execution from exercise 5. You can also _cat xtrabackup_binlog_pos_innodb_ to find this info.
   
   You can now start the slave process.
   
@@ -70,7 +72,7 @@ In this exercise you will: Prepare the backup, start MySQL on DB2 and connect th
 
 * 5.7 - Woops!
 
-  Doesn't look like our slave is running; we have an error! One thing we forgot to do is change the _server_id_ of the slave; it cannot be the same id as the master. Edit _/etc/my.cnf_ and change the server_id to anything other than 0 and it's current value.
+  Doesn't look like our slave is running; we have an error! One thing we forgot to do is change the _server_id_ of the slave; it cannot be the same id as the master. Edit _/etc/my.cnf_ and change the server_id to anything other than 0 and it's current value. You will also need to add _gtid-mode=ON_ and _enforce-gtid-consistency=ON_ since the master also has this enabled.
   
   You will have to restart MySQL for this to take effect.
   
