@@ -55,7 +55,7 @@ In this exercise you will: intentionally remove data from the slave, re-checksum
   
   ```
   pt-table-sync --replicate percona.checksums h=localhost,u=checksum,p=checksum1 \
-    -d imdb -t company_name--print | wc -l
+    -d imdb -t company_name --no-version-check --print | wc -l
   ```
   
   The output redirect (ie: pipe) to *w*ord *c*ount is optional. It serves as a quick check that the tool will execute the same number of SQL statements, as the number of rows we deleted originally, to fix the slave. You use _--print_ to sanity check what will be executed on the master. 
