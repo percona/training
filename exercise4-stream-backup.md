@@ -13,13 +13,14 @@ In this exercise you will: create a streaming backup of your MySQL-DB1
   
   This command will start innobackupex with appropriate options:
   
-  `innobackupex --stream=xbstream --parallel=4 --slave-info --compress /tmp | nc db2-T5 3306`
+  `xtrabackup --backup --stream=xbstream --compress --compress-threads=4 --parallel=4 --no-version-check | nc db2-T5 3306`
   
-  * --stream=xbstream - This option tells innobackupex to send the all of the backup to stdout. We catch this output with the "pipe" and redirect that output to netcat, which in turn, sends it to our other host on port 3306.
+  * --backup - This option says to do a backup.
+  * --stream=xbstream - This option tells xtrabackup to send the all of the backup data to stdout. We catch this output with the "pipe" and redirect that output to netcat, which in turn, sends it to our other host on port 3306.
   * --parallel=4 - This option specifies how many parallel threads we can use to do the backup. If you are running in innodb_file_per_table=1 mode, this should speed up your backups.
-  * --slave-info - This option will print out the master's binary log cordinates as the starting point for our slave configuration in the next exercise.
   * --compress - Compress the backup stream using simple LZ compression. May help if your backup must stream over a WAN.
-  * /tmp - The last parameter is a location where innobackupex can create/store some temporary files during the backup process. They are removed automatically when the process is completed.
+  * --compress-threads - Since we are backing up parallel, it will help to also compress in parallel
+  * --no-version-check - Simply prevents xtrabackup from calling home to check if there is a newer version of the binary
   
   In your MySQL-DB2 instance terminal window, you should see a line for each file as it is copied over and extracted.
   
