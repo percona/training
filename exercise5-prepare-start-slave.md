@@ -1,5 +1,5 @@
 # Classroom Exercises for Percona Training
-###### Last Update: August 2016
+###### Last Update: January 2017
 
 ## Exercise 5
 
@@ -11,9 +11,10 @@ In this exercise you will: Prepare the backup, start MySQL on DB2 and connect th
   
   ```
   cd /var/lib/mysql
-  xtrabackup --decompress --parallel=4 --target-dir=./
-  -- Optional --
-  find ./ -name "*.qp" -exec rm -f {} \;
+  xtrabackup --decompress --parallel=4 --compress-threads=4 --target-dir=./
+  
+  # -- Optional --
+  # find ./ -name "*.qp" -exec rm -f {} \;
   ```
 
 * 5.2 - Prepare the backup

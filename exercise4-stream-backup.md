@@ -1,5 +1,5 @@
 # Classroom Exercises for Percona Training
-###### Last Update: October 2014
+###### Last Update: January 2017
 
 ## Exercise 4
 
