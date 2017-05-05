@@ -13,10 +13,11 @@ In this exercise you will: create a streaming backup of your MySQL-DB1
   
   This command will start innobackupex with appropriate options:
   
-  `xtrabackup --backup --stream=xbstream --compress --compress-threads=4 --parallel=4 --no-version-check | nc db2-T5 3306`
+  `xtrabackup --backup --stream=xbstream --user root --compress --compress-threads=4 --parallel=4 --no-version-check | nc db2-TX 3306`
   
   * --backup - This option says to do a backup.
   * --stream=xbstream - This option tells xtrabackup to send the all of the backup data to stdout. We catch this output with the "pipe" and redirect that output to netcat, which in turn, sends it to our other host on port 3306.
+  * --user - Specify the MySQL user with proper privileges
   * --parallel=4 - This option specifies how many parallel threads we can use to do the backup. If you are running in innodb_file_per_table=1 mode, this should speed up your backups.
   * --compress - Compress the backup stream using simple LZ compression. May help if your backup must stream over a WAN.
   * --compress-threads - Since we are backing up parallel, it will help to also compress in parallel
