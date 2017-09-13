@@ -1,5 +1,5 @@
 # Classroom Exercises for Percona Training
-###### Last Update: August 2016
+###### Last Update: September 2017
 
 ## Exercise 2
 
@@ -25,7 +25,7 @@ In this exercise, you will: Install the Percona Yum repository, Percona Server 5
   1. Your terminal window should still be open from the above step. Let's continue.
   2. Type the following to install Percona Server 5.7 via yum
 
-    `yum install Percona-Server-*57 -y`
+    `yum install Percona-Server-*-57 -y`
     
     This will install, among others, the following packages thanks to the wildcard in the command above:
     
