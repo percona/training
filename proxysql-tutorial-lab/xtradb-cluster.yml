@@ -1,0 +1,95 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: Disable SELinux
+      selinux: policy=targeted state=permissive
+    
+    - name: Install Percona Repo
+      yum: name={{item}} state=present
+      with_items:
+        - http://www.percona.com/downloads/percona-release/redhat/0.1-4/percona-release-0.1-4.noarch.rpm
+        - nano
+
+- hosts: pxcnodes
+  become: true
+  tasks:
+    - name: Install Percona XtraDB Cluster
+      yum: name={{item}} state=present
+      with_items:
+        - Percona-XtraDB-Cluster-57
+
+    - name: mysqld Parameters
+      ini_file:
+        path: /etc/percona-xtradb-cluster.conf.d/mysqld.cnf
+        section: mysqld
+        option: "{{ item.param }}"
+        value: "{{ item.value }}"
+      with_items:
+        - { param: "server_id", value: "{{ ['10','20','30','40','50','60','70','80','90']|random }}" }
+        - { param: "performance_schema", value: "OFF" }
+    
+    - name: WSREP Parameters
+      ini_file:
+        path: /etc/percona-xtradb-cluster.conf.d/wsrep.cnf
+        section: mysqld
+        option: "{{ item.param }}"
+        value: "{{ item.value }}"
+      with_items:
+        - { param: "wsrep_cluster_address", value: "gcomm://192.168.70.10,192.168.70.20,192.168.70.30" }
+        - { param: "wsrep_node_name", value: "{{ inventory_hostname }}" }
+        - { param: "wsrep_sst_auth", value: "\"sstuser:s3cretPass\"" }
+        - { param: "wsrep_node_address", value: "{{ ansible_eth1.ipv4.address }}" }
+        - { param: "pxc_maint_transition_period", value: "1" }
+
+- hosts: mysql1
+  become: true
+  tasks:
+    - name: Bootstrap mysql1
+      command: systemctl start mysql@bootstrap
+        
+    - name: Get root password
+      shell: >
+        awk -F': ' '$0 ~ "temporary password"{print $2}' /var/log/mysqld.log
+      register: mysql_root_password
+    
+    - name: Reset root password
+      shell: >
+        mysql -e "SET password='Perc0na1234'" -uroot -p"{{ mysql_root_password.stdout }}" --connect-expired-password
+    
+    - name: Save root to global config
+      ini_file:
+        path: /etc/my.cnf
+        section: mysql
+        option: password
+        value: "Perc0na1234"
+    
+    - file:
+        path: /etc/ansible/facts.d
+        state: directory
+        mode: 0600
+        owner: root
+    
+    - name: Create SST User
+      command: "mysql -uroot -e \"GRANT PROCESS, RELOAD, LOCK TABLES, REPLICATION CLIENT ON *.* TO 'sstuser'@'localhost' IDENTIFIED BY 's3cretPass'\""
+
+- hosts: mysql2:mysql3
+  become: true
+  tasks:
+    - name: Regular start mysql
+      service: name=mysql state=started enabled=yes
+    - name: Save root to global config
+      ini_file:
+        path: /etc/my.cnf
+        section: mysql
+        option: password
+        value: "Perc0na1234"
+
+- hosts: app
+  become: true
+  tasks:
+    - name: Install sysbench/mysql client
+      yum: name={{item}} state=present
+      with_items:
+        - Percona-Server-client-57.x86_64
+        - sysbench.x86_64

@@ -1,0 +1,47 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: Install Percona Repo
+      yum: name={{item}} state=present
+      with_items:
+        - http://www.percona.com/downloads/percona-release/redhat/0.1-4/percona-release-0.1-4.noarch.rpm
+        - nano
+         
+- hosts: masters:slaves
+  become: true
+  tasks:
+    - name: Install Percona Server/Client
+      yum: name={{item}} state=present
+      with_items:
+        - Percona-Server-server-57.x86_64
+        - Percona-Server-client-57.x86_64
+      notify:
+        - start mysql
+    
+    - name: mysqld Parameters
+      ini_file:
+        path: /etc/my.cnf
+        section: mysqld
+        option: "{{ item.param }}"
+        value: "{{ item.value }}"
+      with_items:
+        - { param: "server_id", value: "{{ ['10','20','30','40','50','60','70','80','90']|random }}" }
+        - { param: "performance_schema", value: "OFF" }
+        - { param: "log_bin", value: "mysql-bin" }
+        - { param: "binlog_format", value: "ROW" }
+      notify:
+        - start mysql
+
+  handlers:
+     - name: start mysql
+       service: name=mysql state=restarted enabled=yes
+
+- hosts: app
+  become: true
+  tasks:
+    - name: Install sysbench/mysql client
+      yum: name={{item}} state=present
+      with_items:
+        - Percona-Server-client-57.x86_64
+        - sysbench.x86_64
