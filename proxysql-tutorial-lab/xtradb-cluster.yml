@@ -1,3 +1,8 @@
+#
+# Percona ProxySQL Tutorial
+# - Ansible Playbook for 3-Node Percona XtraDB Cluster
+#
+
 ---
 - hosts: all
   become: true
@@ -55,20 +60,14 @@
     
     - name: Reset root password
       shell: >
-        mysql -e "SET password='Perc0na1234'" -uroot -p"{{ mysql_root_password.stdout }}" --connect-expired-password
+        mysql -e "SET password='Perc0na1234#'" -uroot -p"{{ mysql_root_password.stdout }}" --connect-expired-password
     
     - name: Save root to global config
       ini_file:
         path: /etc/my.cnf
         section: mysql
         option: password
-        value: "Perc0na1234"
-    
-    - file:
-        path: /etc/ansible/facts.d
-        state: directory
-        mode: 0600
-        owner: root
+        value: "\"Perc0na1234\""
     
     - name: Create SST User
       command: "mysql -uroot -e \"GRANT PROCESS, RELOAD, LOCK TABLES, REPLICATION CLIENT ON *.* TO 'sstuser'@'localhost' IDENTIFIED BY 's3cretPass'\""
@@ -83,7 +82,7 @@
         path: /etc/my.cnf
         section: mysql
         option: password
-        value: "Perc0na1234"
+        value: "\"Perc0na1234\""
 
 - hosts: app
   become: true

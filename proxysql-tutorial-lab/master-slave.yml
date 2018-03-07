@@ -1,3 +1,8 @@
+#
+# Percona ProxySQL Tutorial
+# - Ansible Playbook for Master/Slave-Slave
+#
+
 ---
 - hosts: all
   become: true
@@ -16,8 +21,6 @@
       with_items:
         - Percona-Server-server-57.x86_64
         - Percona-Server-client-57.x86_64
-      notify:
-        - start mysql
     
     - name: mysqld Parameters
       ini_file:
@@ -30,12 +33,25 @@
         - { param: "performance_schema", value: "OFF" }
         - { param: "log_bin", value: "mysql-bin" }
         - { param: "binlog_format", value: "ROW" }
-      notify:
-        - start mysql
-
-  handlers:
-     - name: start mysql
-       service: name=mysql state=restarted enabled=yes
+    
+    - name: start mysql
+      service: name=mysql state=restarted enabled=yes
+    
+    - name: Get root password
+      shell: >
+        awk -F': ' '$0 ~ "temporary password"{print $2}' /var/log/mysqld.log
+      register: mysql_root_password
+    
+    - name: Reset root password
+      shell: >
+        mysql -e "SET password='Perc0na1234#'" -uroot -p"{{ mysql_root_password.stdout }}" --connect-expired-password
+    
+    - name: Save root to global config
+      ini_file:
+        path: /etc/my.cnf
+        section: mysql
+        option: password
+        value: "\"Perc0na1234#\""
 
 - hosts: app
   become: true
